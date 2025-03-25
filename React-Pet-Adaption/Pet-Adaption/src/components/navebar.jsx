@@ -1,16 +1,32 @@
 import React from 'react';
 import '../styles.css';
+import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <nav className="navbar">
       <div className="container">
         <div className="logo">PetAdoption</div>
         <ul className="nav-links">
-          <li><a href="#home" className="nav-link">Home</a></li>
-          <li><a href="#pets" className="nav-link">Pets</a></li>
+          <li>
+            <NavLink to="/" className="nav-link" activeclassname="active-link">
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/listpets" className="nav-link" activeclassname="active-link">
+              Pets
+            </NavLink>
+          </li>
           <li><a href="#process" className="nav-link">Adoption Process</a></li>
-          <li><a href="#contact" className="nav-link">Contact</a></li>
+          <li>
+            <NavLink to="/about" className="nav-link" activeclassname="active-link">
+              about
+            </NavLink>
+          </li>
+          <button className="cta-button" onClick={()=>navigate('/login')}>Login</button>
         </ul>
       </div>
     </nav>
