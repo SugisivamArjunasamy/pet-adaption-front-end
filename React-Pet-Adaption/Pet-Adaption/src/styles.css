@@ -270,6 +270,86 @@ input:focus {
   margin: 0;
 }
 
+/* Register Page */
+.register-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.register-content {
+  background: #1a1a1a;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  width: 350px;
+}
+
+.register-title {
+  font-size: 2rem;
+  color: #93c5fd;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #93c5fd;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+}
+
+textarea {
+  height: 80px;
+  resize: none;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.role-selection {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  color: white;
+}
+
+.role-selection label {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.register-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #2563eb;
+}
 
 /* Responsive Design */
 
@@ -279,6 +359,7 @@ input:focus {
       height: 60px;
   }
 
+  
   .navbar .container {
       flex-direction: column;
       gap: 10px;
@@ -296,6 +377,11 @@ input:focus {
   .navbar {
       height: 50px;
       padding: 8px 15px;
+  }
+
+  .register-content {
+    width: 90%;
+    padding: 30px;
   }
 
   .logo {
@@ -328,6 +414,18 @@ input:focus {
       font-size: 1rem;
   }
 
+  .register-content {
+    width: 95%;
+    padding: 25px;
+  }
+
+  .register-title {
+    font-size: 1.5rem;
+  }
+
+  .register-button {
+    font-size: 0.9rem;
+  }
   .nav-link {
       font-size: 0.8rem;
   }
