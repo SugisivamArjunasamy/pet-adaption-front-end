@@ -23,6 +23,11 @@ html, body {
   text-align: center;
 }
 
+.petcontent{
+  padding: 20px;
+  
+}
+
 /* Navbar */
 .navbar {
   background-color: #050605;

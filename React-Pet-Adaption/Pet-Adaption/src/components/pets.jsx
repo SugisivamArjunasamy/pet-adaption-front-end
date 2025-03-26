@@ -17,7 +17,7 @@ const PetList = () => {
   if (loading === true) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="petcontent">
       <h2>Available Pets</h2>
       <ul>
         {pets.map((pet) => (
