@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles.css";
+import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -60,6 +61,14 @@ const Login = () => {
           {errors.userPassword && <p className="error-message">{errors.userPassword}</p>}
 
           <button type="submit" className="login-button">Login</button>
+
+          <a>Don't have an account? :
+          <a>
+            <NavLink to="/register" className="nav-link" activeclassname="active-link">
+                Register
+            </NavLink>
+          </a>
+          </a>
         </form>
       </div>
     </section>
