@@ -1,29 +1,54 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles.css";
 import { NavLink } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    userName: "",
     mobile: "",
     email: "",
     password: "",
     confirmPassword: "",
     address: "",
-    role: "user",
+    role: "Adopter",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Register button clicked!");
+    
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    console.log("Form Submitted:", formData);
+    
+    try {
+      const response = await fetch("http://localhost:8080/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      console.log("Response received:", response);
+      
+      if (!response.ok) {
+        throw new Error("Registration failed");
+      }
+      
+      console.log("Registration Successful");
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration Error:", error);
+    }
   };
 
   return (
@@ -49,13 +74,9 @@ const Register = () => {
           </div>
           <button type="submit" className="register-button">Register</button>
 
-          <a>Already have an account? :
-          <a>
-            <NavLink to="/login" className="nav-link" activeclassname="active-link">
-                Login
-            </NavLink>
-          </a>
-          </a>
+          <p>Already have an account? 
+            <NavLink to="/login" className="nav-link">Login</NavLink>
+          </p>
         </form>
       </div>
     </div>

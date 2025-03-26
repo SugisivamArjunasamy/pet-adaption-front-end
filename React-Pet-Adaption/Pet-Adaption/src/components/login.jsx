@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,13 +10,15 @@ const Login = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = {};
 
@@ -27,8 +30,28 @@ const Login = () => {
       return;
     }
 
-    console.log("Login Data:", formData);
-    setErrors({});
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:8080/api/users/auth/${formData.userEmail}`);
+      const data = await response.json();
+      setLoading(false);
+      
+      if (!response.ok || !data) {
+        setErrors({ apiError: "User not registered!" });
+        return;
+      }
+      
+      if (data.password !== formData.userPassword) {
+        setErrors({ apiError: "Invalid password!" });
+        return;
+      }
+      
+      console.log("Login Successful:", data);
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      setErrors({ apiError: "Server error. Please try again later." });
+    }
   };
 
   return (
@@ -37,7 +60,6 @@ const Login = () => {
         <h1 className="login-title">Login</h1>
 
         <form onSubmit={handleSubmit} className="login-form">
-
           <label htmlFor="userEmail">Email</label>
           <input
             type="email"
@@ -59,16 +81,15 @@ const Login = () => {
             onChange={handleChange}
           />
           {errors.userPassword && <p className="error-message">{errors.userPassword}</p>}
+          {errors.apiError && <p className="error-message">{errors.apiError}</p>}
 
-          <button type="submit" className="login-button">Login</button>
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
-          <a>Don't have an account? :
-          <a>
-            <NavLink to="/register" className="nav-link" activeclassname="active-link">
-                Register
-            </NavLink>
-          </a>
-          </a>
+          <p>Don't have an account? 
+            <NavLink to="/register" className="nav-link">Register</NavLink>
+          </p>
         </form>
       </div>
     </section>
