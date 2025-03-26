@@ -20,7 +20,11 @@ const Navbar = () => {
               Pets
             </NavLink>
           </li>
-          <li><a href="#process" className="nav-link">Adoption Process</a></li>
+          <li>
+          <NavLink to="/adaption" className="nav-link" activeclassname="active-link">
+              Adaption Process
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/about" className="nav-link" activeclassname="active-link">
               about

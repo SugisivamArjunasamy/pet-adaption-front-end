@@ -7,6 +7,7 @@ import Navbar from "./components/navebar";
 import PetList from "./components/pets.jsx";
 import Login from "./components/login.jsx";
 import Register from "./components/register.jsx";
+import Adaption from "./components/adaption.jsx";
 import "./styles.css";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/listpets" element={<PetList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/adaption" element={<Adaption />} />
         </Routes>
         <Footer />
       </div>
