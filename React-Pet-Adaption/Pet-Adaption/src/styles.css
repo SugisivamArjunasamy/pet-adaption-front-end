@@ -375,6 +375,114 @@ input:focus {
   margin-bottom: 20px;
 }
 
+/* Full Page Pet Detail Container */
+.pet-detail-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #000000, #1a365d);
+  padding: 40px;
+}
+
+/* Pet Detail Content */
+.pet-detail-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+  width: 85%;
+  max-width: 1000px;
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Left: Pet Image */
+.pet-detail-image-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pet-detail-image {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  border: 4px solid #1a365d;
+}
+
+/* Right: Pet Information */
+.pet-detail-info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
+}
+
+/* Pet Name */
+.pet-detail-name {
+  font-size: 30px;
+  font-weight: bold;
+  color: #00d9ff;
+  margin-bottom: 10px;
+}
+
+/* Pet Attributes */
+.pet-detail-age,
+.pet-detail-status,
+.pet-detail-breed,
+.pet-detail-category,
+.pet-detail-amount,
+.pet-detail-description {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* Amount Styling */
+.pet-detail-amount {
+  font-weight: bold;
+  color: #00d9ff;
+}
+
+/* Description */
+.pet-detail-description {
+  line-height: 1.5;
+  max-width: 550px;
+}
+
+/* Available & Unavailable Status */
+.available {
+  color: #28a745;
+}
+
+.unavailable {
+  color: #dc3545;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #ff4d4d;
+}
+
+
 .pet-container {
   width: 100vw;
   min-height: 100vh;
@@ -402,6 +510,8 @@ input:focus {
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
   gap: 20px;
 }
+
+
 
 .pet-image-container {
   flex: 1;

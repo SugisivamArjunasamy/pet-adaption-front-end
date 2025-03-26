@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../styles.css";
 
-const SinglePetDescription = () => {
-  const { id } = useParams(); // Get pet ID from URL
+const PetDescription = () => {
+  const { id } = useParams();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://localhost:8080/api/pets/${id}`)
+    fetch(`http://localhost:8080/api/pets/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setPet(data);
@@ -24,20 +25,34 @@ const SinglePetDescription = () => {
   if (!pet) return <p className="error-text">Pet not found.</p>;
 
   return (
-    <div className="single-pet-container">
-      <div className="pet-image-container">
-        <img src={pet.image} alt={pet.name} className="single-pet-image" />
-      </div>
-      <div className="pet-info">
-        <h2 className="pet-name">{pet.name}</h2>
-        <p className="pet-age">Age: {pet.age} years</p>
-        <p className="pet-description">{pet.description}</p>
-        <p className="pet-details">Breed: {pet.breed}</p>
-        <p className="pet-details">Location: {pet.location}</p>
-        <p className="pet-details">Health Status: {pet.healthStatus}</p>
+    <div className="pet-detail-container">
+      <button className="close-button" onClick={() => navigate(-1)}>✖</button>
+
+      <div className="pet-detail-content">
+        {/* Left: Image */}
+        <div className="pet-detail-image-container">
+          <img
+            src={pet.image || `https://via.placeholder.com/300?text=${pet.petName}`}
+            alt={pet.petName}
+            className="pet-detail-image"
+          />
+        </div>
+
+        {/* Right: Info */}
+        <div className="pet-detail-info">
+          <h2 className="pet-detail-name">{pet.petName}</h2>
+          <p className="pet-detail-age">Age: {pet.petAge} years</p>
+          <p className={`pet-detail-status ${pet.status === "Available" ? "available" : "unavailable"}`}>
+            Status: {pet.status}
+          </p>
+          <p className="pet-detail-breed">Breed: {pet.breed}</p>
+          <p className="pet-detail-category">Category: {pet.category}</p>
+          <p className="pet-detail-amount">Adoption Fee: ${pet.amount}</p>
+          <p className="pet-detail-description">{pet.description}</p>
+        </div>
       </div>
     </div>
   );
 };
 
-export default SinglePetDescription;
+export default PetDescription;
