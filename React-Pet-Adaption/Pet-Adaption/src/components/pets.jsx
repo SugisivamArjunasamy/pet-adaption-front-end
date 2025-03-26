@@ -6,7 +6,7 @@ const PetList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://172.31.93.79:8080/api/pets") 
+    axios.get("http://localhost:8080/api/pets") 
       .then((response) => {
         setPets(response.data);
         setLoading(false);
@@ -17,7 +17,7 @@ const PetList = () => {
   if (loading === true) return <p>Loading...</p>;
 
   return (
-    <div className="petcontent">
+    <div>
       <h2>Available Pets</h2>
       <ul>
         {pets.map((pet) => (
