@@ -384,7 +384,53 @@ input:focus {
   align-items: center;
   text-align: center;
   padding: 50px 10px;
+  border-radius: 5px;
+  border-color: aliceblue;
 }
+
+.single-pet-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  background: black;
+  color: white;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 40px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+  gap: 20px;
+}
+
+.pet-image-container {
+  flex: 1;
+  max-width: 300px;
+}
+
+.single-pet-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.pet-info {
+  flex: 2;
+  text-align: left;
+}
+
+.pet-name {
+  font-size: 2rem;
+  color: #93c5fd;
+  margin-bottom: 10px;
+}
+
+.pet-age, .pet-description, .pet-details {
+  font-size: 1.1rem;
+  color: #bfdbfe;
+  margin: 5px 0;
+}
+
 
 .pet-title {
   font-size: 2.5rem;

@@ -1,35 +1,43 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "../styles.css";
 
-const PetDescription = () => {
-  const [pets, setPets] = useState([]);
+const SinglePetDescription = () => {
+  const { id } = useParams(); // Get pet ID from URL
+  const [pet, setPet] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://localhost:8080/api/pets") 
+    fetch(`https://localhost:8080/api/pets/${id}`)
       .then((response) => response.json())
-      .then((data) => setPets(data))
-      .catch((error) => console.error("Error fetching pets:", error));
-  }, []);
+      .then((data) => {
+        setPet(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching pet details:", error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <p className="loading-text">Loading pet details...</p>;
+  if (!pet) return <p className="error-text">Pet not found.</p>;
 
   return (
-    <div className="pet-container">
-      <h2 className="pet-title">Meet Our Adorable Pets</h2>
-      <div className="pet-grid">
-        {pets.length > 0 ? (
-          pets.map((pet) => (
-            <div className="pet-card" key={pet.id}>
-              <img src={pet.image} alt={pet.name} className="pet-image" />
-              <h3 className="pet-name">{pet.name}</h3>
-              <p className="pet-age">Age: {pet.age} years</p>
-              <p className="pet-description">{pet.description}</p>
-            </div>
-          ))
-        ) : (
-          <p className="loading-text">Loading pets...</p>
-        )}
+    <div className="single-pet-container">
+      <div className="pet-image-container">
+        <img src={pet.image} alt={pet.name} className="single-pet-image" />
+      </div>
+      <div className="pet-info">
+        <h2 className="pet-name">{pet.name}</h2>
+        <p className="pet-age">Age: {pet.age} years</p>
+        <p className="pet-description">{pet.description}</p>
+        <p className="pet-details">Breed: {pet.breed}</p>
+        <p className="pet-details">Location: {pet.location}</p>
+        <p className="pet-details">Health Status: {pet.healthStatus}</p>
       </div>
     </div>
   );
 };
 
-export default PetDescription;
+export default SinglePetDescription;
