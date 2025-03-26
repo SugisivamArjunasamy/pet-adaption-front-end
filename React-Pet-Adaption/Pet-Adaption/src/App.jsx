@@ -8,6 +8,7 @@ import PetList from "./components/pets.jsx";
 import Login from "./components/login.jsx";
 import Register from "./components/register.jsx";
 import Adaption from "./components/adaption.jsx";
+import PetDescription from "./components/petdiscription.jsx";
 import "./styles.css";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/adaption" element={<Adaption />} />
+          <Route path="/petDiscription" element={<PetDescription />} />
         </Routes>
         <Footer />
       </div>
