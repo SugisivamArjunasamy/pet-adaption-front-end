@@ -6,7 +6,7 @@ const PetList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/pets") 
+    axios.get("http://172.31.93.79:8080/api/pets") 
       .then((response) => {
         setPets(response.data);
         setLoading(false);
