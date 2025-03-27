@@ -14,7 +14,7 @@ const Adoption = () => {
         console.error("Error fetching pet details:", error);
         setPet({ image: "https://via.placeholder.com/600x400?text=No+Image" });
       });
-  }, [petId]);
+  }, []);
 
   return (
     <section className="adoption-section">
@@ -34,10 +34,10 @@ const Adoption = () => {
       </p>
 
       <form className="adoption-form">
-        <input type="text" placeholder="Your Full Name" required className="input-field" />
-        <input type="email" placeholder="Your Email" required className="input-field" />
-        <input type="text" placeholder="Phone Number" required className="input-field" />
-        <textarea placeholder="Why do you want to adopt?" required className="input-field textarea"></textarea>
+        <input type="text" placeholder="Pet Name" required className="input-field" />
+        <input type="text" placeholder="Your Name" required className="input-field" />
+        <input type="email" placeholder="Email" required className="input-field" />
+        <input type="text" placeholder="Amount" required className="input-field" />
         <button type="submit" className="adoption-button">Start Adoption Process</button>
       </form>
     </section>
