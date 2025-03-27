@@ -32,13 +32,13 @@ const PetDescription = () => {
         {/* Left: Image */}
         <div className="pet-detail-image-container">
           <img
-            src={pet.image || `https://via.placeholder.com/300?text=${pet.petName}`}
+            src={pet.imageUrl && pet.imageUrl.startsWith("http") ? pet.imageUrl : `https://via.placeholder.com/300?text=${pet.petName}`}
             alt={pet.petName}
             className="pet-detail-image"
+            onError={(e) => e.target.src = "https://via.placeholder.com/300?text=No+Image"}
           />
         </div>
 
-        {/* Right: Info */}
         <div className="pet-detail-info">
           <h2 className="pet-detail-name">{pet.petName}</h2>
           <p className="pet-detail-age">Age: {pet.petAge} years</p>
@@ -49,6 +49,7 @@ const PetDescription = () => {
           <p className="pet-detail-category">Category: {pet.category}</p>
           <p className="pet-detail-amount">Adoption Fee: ${pet.amount}</p>
           <p className="pet-detail-description">{pet.description}</p>
+          <button className="bta-button" onClick={() => navigate('/adaption')}>Adopt Pet</button>
         </div>
       </div>
     </div>

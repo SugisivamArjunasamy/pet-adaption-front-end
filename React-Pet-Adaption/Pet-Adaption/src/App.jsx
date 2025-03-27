@@ -9,6 +9,8 @@ import Login from "./components/login.jsx";
 import Register from "./components/register.jsx";
 import Adaption from "./components/adaption.jsx";
 import PetDescription from "./components/petdiscription.jsx";
+import UserProfile from "./components/userprofile.jsx";
+import AdminDashboard from "./components/admin.jsx";
 import "./styles.css";
 
 const App = () => {
@@ -24,6 +26,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/adaption" element={<Adaption />} />
           <Route path="/pets/:id" element={<PetDescription />} />
+          <Route path="/user/:id" element={<UserProfile />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
         <Footer />
       </div>
