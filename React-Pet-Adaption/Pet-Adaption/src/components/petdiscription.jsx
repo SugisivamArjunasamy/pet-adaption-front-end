@@ -3,15 +3,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../styles.css";
 
 const PetDescription = () => {
-  const { id } = useParams(); // Get pet ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [pets, setPets] = useState([]); // State for all pets
-  const [pet, setPet] = useState(null); // State for single pet
+  const [pets, setPets] = useState([]);
+  const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let url = id ? `http://localhost:8080/api/pets/${id}` : `http://localhost:8080/api/pets`;
+    let url = id
+      ? `http://localhost:8080/api/pets/${id}`
+      : `http://localhost:8080/api/pets`;
 
     fetch(url)
       .then((response) => {
@@ -41,19 +43,17 @@ const PetDescription = () => {
   return (
     <div className="pet-container">
       {id ? (
-        // Single Pet View
         <div className="pet-detail-container">
           <button className="close-button" onClick={() => navigate(-1)}>✖</button>
           <div className="pet-detail-content">
-            {/* Left: Image */}
             <div className="pet-detail-image-container">
               <img
-                src={pet.image || `https://via.placeholder.com/300?text=${pet.petName}`}
+                src={pet.image && pet.image.startsWith("http") ? pet.image : `https://via.placeholder.com/300?text=${pet.petName}`}
                 alt={pet.petName}
                 className="pet-detail-image"
+                onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
               />
             </div>
-            {/* Right: Info */}
             <div className="pet-detail-info">
               <h2 className="pet-detail-name">{pet.petName}</h2>
               <p className="pet-detail-age">Age: {pet.petAge} years</p>
@@ -64,11 +64,11 @@ const PetDescription = () => {
               <p className="pet-detail-category">Category: {pet.category}</p>
               <p className="pet-detail-amount">Adoption Fee: ${pet.amount}</p>
               <p className="pet-detail-description">{pet.description}</p>
+              <button className="bta-button" onClick={() => navigate('/adoption')}>Adopt Pet</button>
             </div>
           </div>
         </div>
       ) : (
-        // List of Pets View
         <>
           <h2 className="pet-title">Meet Our Adorable Pets</h2>
           <div className="pet-grid">

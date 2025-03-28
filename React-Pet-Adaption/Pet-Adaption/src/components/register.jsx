@@ -62,16 +62,6 @@ const Register = () => {
           <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
           <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
           <textarea name="address" placeholder="Address" value={formData.address} onChange={handleChange} required />
-          <div className="role-selection">
-            <label>
-              <input type="radio" name="role" value="admin" checked={formData.role === "admin"} onChange={handleChange} />
-              Admin
-            </label>
-            <label>
-              <input type="radio" name="role" value="user" checked={formData.role === "user"} onChange={handleChange} />
-              User
-            </label>
-          </div>
           <button type="submit" className="register-button">Register</button>
 
           <p>Already have an account? 
