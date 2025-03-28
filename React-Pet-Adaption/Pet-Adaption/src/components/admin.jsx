@@ -9,10 +9,10 @@ const AdminDashboard = () => {
     category: "",
     breed: "",
     description: "",
-    status: "Available",
+    status: "AVAILABLE",
     amount: "",
     location: "",
-    imageUrl: "", 
+    imageUrl: "",
   });
 
   const [editingPet] = useState(null);
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
           status: "Available",
           amount: "",
           location: "",
-          imageUrl: "", 
+          imageUrl: "",
         });
       })
       .catch((error) => console.error("Error adding pet:", error));
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
         <input type="number" name="amount" placeholder="Amount" value={newPet.amount} onChange={handleChange} />
         <input type="text" name="location" placeholder="Location" value={newPet.location} onChange={handleChange} />
         <input type="text" name="imageUrl" placeholder="Image URL" value={newPet.imageUrl} onChange={handleChange} />
-        
+
         <button onClick={handleAddPet} className="add-button">
           {editingPet ? "Update Pet" : "Add Pet"}
         </button>
@@ -86,10 +86,10 @@ const AdminDashboard = () => {
         <div className="pet-grid">
           {pets.map((pet) => (
             <div className="pet-card" key={pet.petId}>
-              <img 
-                src={pet.imageUrl || "https://via.placeholder.com/200"} 
-                alt={pet.petName} 
-                className="pet-image" 
+              <img
+                src={pet.imageUrl?.trim() ? pet.imageUrl : "https://via.placeholder.com/200"}
+                alt={pet.petName}
+                className="pet-image"
                 onError={(e) => { e.target.src = "https://via.placeholder.com/200"; }}
               />
               <h3>{pet.petName}</h3>

@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    userName: "",
+    username: "",
     mobile: "",
     email: "",
     password: "",

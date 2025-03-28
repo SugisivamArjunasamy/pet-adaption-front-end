@@ -34,10 +34,10 @@ const Adoption = () => {
       </p>
 
       <form className="adoption-form">
-        <input type="text" placeholder="Pet Name" required className="input-field" />
+        {/* <input type="text" placeholder="Pet Name" required className="input-field" /> */}
         <input type="text" placeholder="Your Name" required className="input-field" />
         <input type="email" placeholder="Email" required className="input-field" />
-        <input type="text" placeholder="Amount" required className="input-field" />
+        {/* <input type="text" placeholder="Amount" required className="input-field" /> */}
         <button type="submit" className="adoption-button">Start Adoption Process</button>
       </form>
     </section>

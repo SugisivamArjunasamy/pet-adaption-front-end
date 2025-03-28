@@ -1,43 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles.css";
 
-const UserProfile = () => {
-  const { id } = useParams(); 
+const Profile = ({ setUserLoggedIn }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/users/${id}`) 
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-        setLoading(false);
-      });
-  }, [id]);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser) {
+      navigate("/login");
+    } else {
+      setUser(storedUser);
+    }
+  }, [navigate]);
 
-  if (loading) return <p className="loading-text">Loading profile...</p>;
-  if (!user) return <p className="error-text">User not found.</p>;
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUserLoggedIn(false);
+    setLoggingOut(true);
+  };
+
+  useEffect(() => {
+    if (loggingOut) {
+      localStorage.removeItem("user");
+      navigate("/login");
+    }
+  }, [loggingOut, navigate]);
 
   return (
-    <div className="user-profile-container">
-      <button className="close-button" onClick={() => navigate(-1)}>✖</button>
+    <section className="profile-page">
+      <div className="profile-content">
+        {user ? (
+          <>
+            <h1>Welcome, {user.name}!</h1>
+            <p>Email: {user.email}</p>
+            <h2>Adopted Pets</h2>
+            <ul>
+              {user.adoptedPets && user.adoptedPets.length > 0 ? (
+                user.adoptedPets.map((pet) => (
+                  <li key={pet.id}>
+                    <p>
+                      <strong>{pet.name}</strong> - {pet.breed}
+                    </p>
+                  </li>
+                ))
+              ) : (
+                <p>No adopted pets yet.</p>
+              )}
+            </ul>
 
-      <div className="user-profile-content">
-        {/* User Info */}
-        <div className="user-profile-info">
-          <h2 className="user-profile-name">{user.userName}</h2>
-          <p className="user-profile-email">Email: {user.email}</p>
-          <p className="user-profile-role">Role: {user.role}</p>
-        </div>
+            <button className="logout-button" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default UserProfile;
+export default Profile;

@@ -5,88 +5,94 @@ import "../styles.css";
 const PetDescription = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [pets, setPets] = useState([]);
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    let url = id
-      ? `http://localhost:8080/api/pets/${id}`
-      : `http://localhost:8080/api/pets`;
+    const controller = new AbortController();
+    const fetchPet = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/pets/${id}`, {
+          signal: controller.signal,
+        });
 
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch pet data.");
+        if (!response.ok) throw new Error("Failed to fetch pet data.");
+
+        const data = await response.json();
+        setPet(data);
+        setImageError(false); // Reset image error when data is loaded
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Error fetching pet:", error);
+          setError("Failed to load pet data.");
         }
-        return response.json();
-      })
-      .then((data) => {
-        if (id) {
-          setPet(data);
-        } else {
-          setPets(data);
-        }
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching pets:", error);
-        setError("Failed to load pet data.");
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchPet();
+
+    return () => controller.abort(); // Cleanup function to prevent re-fetching
   }, [id]);
 
-  if (loading) return <p className="loading-text">Loading pets...</p>;
+  const handleAdoption = async () => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser || !storedUser.userId) {
+      alert("User not logged in. Please log in first.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/adoption-requests/create?petId=${id}&userId=${storedUser.userId}`,
+        { method: "POST" }
+      );
+
+      if (!response.ok) throw new Error("Failed to submit adoption request.");
+
+      alert("Adoption request submitted successfully!");
+      navigate("/");
+    } catch (error) {
+      console.error("Adoption request error:", error);
+      alert("Failed to submit adoption request.");
+    }
+  };
+
+  if (loading) return <p className="loading-text">Loading pet details...</p>;
   if (error) return <p className="error-text">{error}</p>;
 
   return (
-    <div className="pet-container">
-      {id ? (
-        <div className="pet-detail-container">
-          <button className="close-button" onClick={() => navigate(-1)}>✖</button>
-          <div className="pet-detail-content">
-            <div className="pet-detail-image-container">
-              <img
-                src={pet.image && pet.image.startsWith("http") ? pet.image : `https://via.placeholder.com/300?text=${pet.petName}`}
-                alt={pet.petName}
-                className="pet-detail-image"
-                onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
-              />
-            </div>
-            <div className="pet-detail-info">
-              <h2 className="pet-detail-name">{pet.petName}</h2>
-              <p className="pet-detail-age">Age: {pet.petAge} years</p>
-              <p className={`pet-detail-status ${pet.status === "Available" ? "available" : "unavailable"}`}>
-                Status: {pet.status}
-              </p>
-              <p className="pet-detail-breed">Breed: {pet.breed}</p>
-              <p className="pet-detail-category">Category: {pet.category}</p>
-              <p className="pet-detail-amount">Adoption Fee: ${pet.amount}</p>
-              <p className="pet-detail-description">{pet.description}</p>
-              <button className="bta-button" onClick={() => navigate('/adoption')}>Adopt Pet</button>
-            </div>
-          </div>
+    <div className="pet-detail-container">
+      <button className="close-button" onClick={() => navigate(-1)}>✖</button>
+      <div className="pet-detail-content">
+        <div className="pet-detail-image-container">
+          <img
+            src={
+              imageError || !pet?.image?.startsWith("http")
+                ? "https://via.placeholder.com/300?text=No+Image"
+                : pet.image
+            }
+            alt={pet?.petName}
+            className="pet-detail-image"
+            onError={() => setImageError(true)} // Set image error once
+          />
         </div>
-      ) : (
-        <>
-          <h2 className="pet-title">Meet Our Adorable Pets</h2>
-          <div className="pet-grid">
-            {pets.length > 0 ? (
-              pets.map((pet) => (
-                <div className="pet-card" key={pet.id}>
-                  <img src={pet.image} alt={pet.name} className="pet-image" />
-                  <h3 className="pet-name">{pet.name}</h3>
-                  <p className="pet-age">Age: {pet.age} years</p>
-                  <p className="pet-description">{pet.description}</p>
-                </div>
-              ))
-            ) : (
-              <p className="loading-text">No pets available at the moment.</p>
-            )}
-          </div>
-        </>
-      )}
+        <div className="pet-detail-info">
+          <h2 className="pet-detail-name">{pet?.petName}</h2>
+          <p className="pet-detail-age">Age: {pet?.petAge} years</p>
+          <p className={`pet-detail-status ${pet?.status === "Available" ? "available" : "unavailable"}`}>
+            Status: {pet?.status}
+          </p>
+          <p className="pet-detail-breed">Breed: {pet?.breed}</p>
+          <p className="pet-detail-category">Category: {pet?.category}</p>
+          <p className="pet-detail-amount">Adoption Fee: ${pet?.amount}</p>
+          <p className="pet-detail-description">{pet?.description}</p>
+          <button className="bta-button" onClick={handleAdoption}>Adopt Pet</button>
+        </div>
+      </div>
     </div>
   );
 };
